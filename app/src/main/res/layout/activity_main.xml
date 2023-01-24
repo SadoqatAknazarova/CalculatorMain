@@ -5,25 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
+
     tools:context=".MainActivity">
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="6,291÷5"
+        android:text="0"
+        android:id="@+id/oper"
         android:textColor="@color/black"
         android:textSize="26dp"
         android:textAlignment="textEnd"
         android:layout_marginRight="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView" />
+        app:layout_constraintBottom_toTopOf="@+id/result" />
 
     <TextView
-        android:id="@+id/textView"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="10dp"
         android:text="1,258.2"
+        android:id="@+id/result"
         android:textAlignment="textEnd"
         android:textColor="@color/white"
         android:textSize="45dp"
@@ -48,6 +51,7 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="C"
+            android:id="@+id/clear"
             android:textAlignment="center"
             android:textSize="25dp"
             app:backgroundTint="@color/purple_200"
@@ -74,6 +78,7 @@ android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
             android:textAlignment="center"
             android:textSize="25dp"
+
             app:backgroundTint="@color/purple_200"
             app:cornerRadius="8dp"
             app:icon="@drawable/ic_launcherpercent_foreground"
@@ -86,6 +91,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:textSize="25dp"
+
+            android:id="@+id/div"
             app:backgroundTint="@color/purple_500"
             app:cornerRadius="8dp"
             app:icon="@drawable/text"
@@ -108,6 +115,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="7"
+
+            android:id="@+id/seven"
             android:textSize="25dp"
             app:cornerRadius="8dp"
             android:backgroundTint="@color/black" />
@@ -119,6 +128,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="8"
+
+            android:id="@+id/eight"
             android:textSize="25dp"
             app:cornerRadius="8dp"
             android:backgroundTint="@color/black" />
@@ -130,6 +141,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
             app:cornerRadius="8dp"
             android:text="9"
+
+            android:id="@+id/nine"
             android:textSize="25dp"
             android:backgroundTint="@color/black" />
 
@@ -139,6 +152,7 @@ android:layout_marginHorizontal="10dp"
             app:icon="@drawable/text2"
             app:iconGravity="textStart"
             android:textSize="25dp"
+            android:id="@+id/multiply"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             app:cornerRadius="8dp"
@@ -157,11 +171,13 @@ android:layout_marginHorizontal="10dp"
         tools:layout_editor_absoluteX="16dp">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/one"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="1"
+
             android:textSize="25dp"
             android:backgroundTint="@color/black" />
 
@@ -172,6 +188,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="2"
+
+            android:id="@+id/two"
             android:textSize="25dp"
             android:backgroundTint="@color/black" />
 
@@ -181,6 +199,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="3"
+
+            android:id="@+id/three"
             android:textSize="25dp"
             android:backgroundTint="@color/black" />
 
@@ -191,7 +211,7 @@ android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
             android:text="+"
             android:textSize="25dp"
-
+            android:id="@+id/plus"
             app:backgroundTint="@color/purple_500" />
     </LinearLayout>
 
@@ -211,6 +231,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
             app:cornerRadius="8dp"
             android:text="4"
+
+            android:id="@+id/four"
             android:textSize="25dp"
             android:backgroundTint="@color/black" />
 
@@ -221,6 +243,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="5"
+
+            android:id="@+id/five"
             app:cornerRadius="8dp"
             android:textSize="25dp"
             android:backgroundTint="@color/black" />
@@ -231,6 +255,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="6"
+
+            android:id="@+id/six"
             app:cornerRadius="8dp"
             android:textSize="25dp"
             android:backgroundTint="@color/black" />
@@ -243,6 +269,7 @@ android:layout_marginHorizontal="10dp"
             app:iconGravity="textStart"
             android:textSize="25dp"
             app:cornerRadius="8dp"
+            android:id="@+id/minus"
             app:icon="@drawable/text3"
             app:backgroundTint="@color/purple_500"/>
     </LinearLayout>
@@ -263,6 +290,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:text="."
+
+            android:id="@+id/dot"
             android:textSize="25dp"
             app:cornerRadius="8dp"
             android:backgroundTint="@color/black" />
@@ -273,6 +302,8 @@ android:layout_marginHorizontal="10dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="4dp"
             android:text="0"
+
+            android:id="@+id/zero"
             android:textSize="25dp"
             app:cornerRadius="8dp"
             android:layout_weight="1"
@@ -286,6 +317,7 @@ android:layout_marginHorizontal="10dp"
             app:icon="@drawable/delete"
             app:iconSize="25dp"
             app:cornerRadius="8dp"
+            android:id="@+id/delete"
             android:textSize="25dp"
             app:iconGravity="textStart"
              android:backgroundTint="@color/black" />
@@ -296,6 +328,7 @@ android:layout_marginHorizontal="10dp"
             android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             app:cornerRadius="8dp"
+            android:id="@+id/equel"
             android:text="="
             android:textSize="25dp"
 
