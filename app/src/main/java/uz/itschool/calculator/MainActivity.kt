@@ -25,12 +25,14 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
     private lateinit var zero: Button
 
     private lateinit var percent:Button
+    private lateinit var bracket:Button
     private lateinit var multiply: Button
     private lateinit var plus: Button
     private lateinit var delete: Button
     private lateinit var minus: Button
     private lateinit var dot: Button
     private lateinit var div: Button
+    private lateinit var equal: Button
     private lateinit var clear: Button
     private lateinit var oper: TextView
     private lateinit var result: TextView
@@ -54,22 +56,25 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
         eight.setOnClickListener(this)
         nine.setOnClickListener(this)
         zero.setOnClickListener(this)
+        percent.setOnClickListener(this)
+        bracket.setOnClickListener(this)
 
         dot.setOnClickListener {
             if (ispoint) {
-                if (oper.text.substring(oper.text.length-1,oper.text.length).isDigitsOnly())
+                if (oper.text.substring(oper.text.length - 1, oper.text.length).isDigitsOnly())
 
-                oper.text = oper.text.toString() + "."
+                    oper.text = oper.text.toString() + "."
                 ispoint = false
             }
         }
 
         clear.setOnClickListener {
             oper.text = "0"
+            result.text=""
         }
 
         delete.setOnClickListener {
-            oper.text=oper.text.substring(0,oper.text.length-1)
+            oper.text = oper.text.substring(0, oper.text.length - 1)
         }
 
         multiply.setOnClickListener {
@@ -88,9 +93,22 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
         minus.setOnClickListener {
             addSymbol("-")
         }
+        equal.setOnClickListener {
+            var list = createArray(oper.text.toString())
+            var perc_list=percentage(list)
+            var l = step1(perc_list)
+            result.text = step2(l)
 
+        }
+        percent.setOnClickListener {
+            addSymbol("%")
+        }
+
+        bracket.setOnClickListener {
+            oper.text = ""
+
+        }
     }
-
 
     override fun onClick(p0: View?) {
         val btn = findViewById<Button>(p0!!.id)
@@ -143,10 +161,97 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    var list_solve= mutableListOf<Any>()
+    fun step1(problem_list:MutableList<Any>):MutableList<Any>{
+
+        var temp = 0f
+
+        var i = 0
+        while (problem_list.contains('x') || problem_list.contains('/')){
+            if(problem_list[i]=='x' || problem_list[i]=='/'){
+                var next:Float =problem_list[i-1].toString().toFloat()
+                var prev:Float = problem_list[i+1].toString().toFloat()
+                when(problem_list[i]){
+                    'x'->{
+                        temp = next*prev
+
+                    }
+                    '/'->{
+                        temp = next/prev
+                    }
+                }
+                problem_list[i-1] = temp
+                problem_list.removeAt(i)
+                problem_list.removeAt(i)
+                i = i-2
+            }
+            i++
+        }
+        Log.d("TAG", problem_list.toString())
+        list_solve=problem_list
+        return problem_list
+    }
+
+    fun step2(problem_list:MutableList<Any>):String{
+
+        var i = 0
+        var temp = 0f
+        while (problem_list.contains('+') || problem_list.contains('-')){
+            if(problem_list[i]=='+' || problem_list[i]=='-'){
+                var next:Float = problem_list[i-1].toString().toFloat()
+                var prev:Float = problem_list[i+1].toString().toFloat()
+                when(problem_list[i]){
+                    '+'->{
+                        temp = next+prev
+
+                    }
+                    '-'->{
+                        temp = next-prev
+                    }
+                }
+                problem_list[i-1] = temp
+                problem_list.removeAt(i)
+                problem_list.removeAt(i)
+                i = i-2
+            }
+            i++
+        }
+        var res:String=problem_list[0].toString()
+        return res
+    }
+
+    fun percentage(problem_list:MutableList<Any>):MutableList<Any>{
+        var i = 0
+        var temp = 0f
+        while (problem_list.contains('%')){
+            Log.d("TAG", temp.toString())
+            if(problem_list[i]=='%'){
+                var next:Float = problem_list[i-1].toString().toFloat()
+                var prev:Float = problem_list[i+1].toString().toFloat()
+                when (problem_list[i]){
+                    '%'->{
+
+                    temp = (next*prev/100).toFloat()
+                        problem_list[i]=temp
+                }
+                }
+                problem_list[i-1] = temp
+                problem_list.removeAt(i)
+                problem_list.removeAt(i)
+                i = i-2
+
+            }
+            i++
+        }
+        return problem_list
+    }
+
 
     fun initUI() {
         percent=findViewById(R.id.percent)
         div = findViewById(R.id.div)
+        bracket = findViewById(R.id.bracket)
+        equal = findViewById(R.id.equal)
         multiply = findViewById(R.id.multiply)
         clear = findViewById(R.id.clear)
         oper = findViewById(R.id.oper)
