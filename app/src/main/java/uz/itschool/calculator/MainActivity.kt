@@ -37,6 +37,8 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
     private lateinit var oper: TextView
     private lateinit var result: TextView
     private var ispoint = true
+
+    private var a=""
     private var issymbol = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,10 +106,15 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
             addSymbol("%")
         }
 
-        bracket.setOnClickListener {
-            oper.text = ""
+     bracket.setOnClickListener {
 
-        }
+    a=oper.text.substring(oper.text.length-1, oper.text.length)
+             if(a.isDigitsOnly()) {
+                oper.text = oper.text.substring(0, oper.text.length - 1) + "(-" + a+ ")"
+             }
+
+
+      }
     }
 
     override fun onClick(p0: View?) {
@@ -120,131 +127,140 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    private fun calculate(): String {
-        var r = "0"
-        createArray(oper.text.toString())
-        return r
-    }
+  private fun calculate(): String {
+      var r = "0"
+      createArray(oper.text.toString())
+      return r
+  }
 
 
-    fun addSymbol(symbol: String) {
-        if (issymbol) {
-            oper.text = oper.text.toString() + symbol
-            issymbol = false
-        } else {
-            if (oper.text != "0") {
-                oper.text = oper.text.substring(0, oper.text.length - 1) + symbol
-            }
-        }
-        ispoint = true
+  fun addSymbol(symbol: String) {
+      if (issymbol) {
+          oper.text = oper.text.toString() + symbol
+          issymbol = false
+      } else {
+          if (oper.text != "0") {
+              oper.text = oper.text.substring(0, oper.text.length - 1) + symbol
+          }
+      }
+      ispoint = true
 
-    }
+  }
 
-    fun createArray(s: String): MutableList<Any> {
-        var list = mutableListOf<Any>()
+fun createArray(s:String):MutableList<Any>{
+   var list = mutableListOf<Any>()
+   var temp = ""
+   var minus = 1
 
-        var temp = ""
-        for (i in s)
-            if (i.isDigit() || i == '.') {
-                temp += i
-            } else {
-                list.add(temp)
-                list.add(i)
-                temp = ""
-            }
-        if (temp.isNotEmpty()) {
-            list.add(temp)
+   for(i in 0.. s.length-1){
+       if (s[i]=='('){
+           minus = -1
+       }
+       else if(s[i].isDigit() || s[i]=='.'){
+           temp+=s[i]
+       }
 
-        }
+       else if(s[i-1]!='(' && (s[i]=='+' || s[i]=='-' ||  s[i]=='x' || s[i]=='/')){
+           list.add(temp.toFloat())
+           list.add(s[i])
+           temp=""
+       }
+   }
+   if(temp.isNotEmpty()){
+      var t:Float =  temp.toFloat() *minus
+     minus =1
+     list.add(t)
+  }
 
-        return list
+   return list
+}
 
-    }
 
-    var list_solve= mutableListOf<Any>()
-    fun step1(problem_list:MutableList<Any>):MutableList<Any>{
+  var list_solve= mutableListOf<Any>()
+  fun step1(problem_list:MutableList<Any>):MutableList<Any>{
 
-        var temp = 0f
+      var temp = 0f
 
-        var i = 0
-        while (problem_list.contains('x') || problem_list.contains('/')){
-            if(problem_list[i]=='x' || problem_list[i]=='/'){
-                var next:Float =problem_list[i-1].toString().toFloat()
-                var prev:Float = problem_list[i+1].toString().toFloat()
-                when(problem_list[i]){
-                    'x'->{
-                        temp = next*prev
+      var i = 0
+      while (problem_list.contains('x') || problem_list.contains('/')){
+          if(problem_list[i]=='x' || problem_list[i]=='/'){
+              var next:Float =problem_list[i-1].toString().toFloat()
+              var prev:Float = problem_list[i+1].toString().toFloat()
+              when(problem_list[i]){
+                  'x'->{
+                      temp = prev  *next
 
-                    }
-                    '/'->{
-                        temp = next/prev
-                    }
-                }
-                problem_list[i-1] = temp
-                problem_list.removeAt(i)
-                problem_list.removeAt(i)
-                i = i-2
-            }
-            i++
-        }
-        Log.d("TAG", problem_list.toString())
-        list_solve=problem_list
-        return problem_list
-    }
+                  }
 
-    fun step2(problem_list:MutableList<Any>):String{
+                  '/'->{
+                      temp = next/prev
+                  }
+              }
+              problem_list[i-1] = temp
+              problem_list.removeAt(i)
+              problem_list.removeAt(i)
+              i = i-2
+          }
+          i++
+      }
+      Log.d("TAG", problem_list.toString())
+      list_solve=problem_list
+      return problem_list
+  }
 
-        var i = 0
-        var temp = 0f
-        while (problem_list.contains('+') || problem_list.contains('-')){
-            if(problem_list[i]=='+' || problem_list[i]=='-'){
-                var next:Float = problem_list[i-1].toString().toFloat()
-                var prev:Float = problem_list[i+1].toString().toFloat()
-                when(problem_list[i]){
-                    '+'->{
-                        temp = next+prev
+  fun step2(problem_list:MutableList<Any>):String{
 
-                    }
-                    '-'->{
-                        temp = next-prev
-                    }
-                }
-                problem_list[i-1] = temp
-                problem_list.removeAt(i)
-                problem_list.removeAt(i)
-                i = i-2
-            }
-            i++
-        }
-        var res:String=problem_list[0].toString()
-        return res
-    }
+      var i = 0
+      var temp = 0f
+      while (problem_list.contains('+') || problem_list.contains('-')){
+          if(problem_list[i]=='+' || problem_list[i]=='-'){
+              var next:Float = problem_list[i-1].toString().toFloat()
+              var prev:Float = problem_list[i+1].toString().toFloat()
+              when(problem_list[i]){
+                  '+'->{
+                      temp = next+prev
 
-    fun percentage(problem_list:MutableList<Any>):MutableList<Any>{
-        var i = 0
-        var temp = 0f
-        while (problem_list.contains('%')){
-            Log.d("TAG", temp.toString())
-            if(problem_list[i]=='%'){
-                var next:Float = problem_list[i-1].toString().toFloat()
-                var prev:Float = problem_list[i+1].toString().toFloat()
-                when (problem_list[i]){
-                    '%'->{
+                  }
+                  '-'->{
+                      temp = next-prev
+                  }
+              }
+              problem_list[i-1] = temp
+              problem_list.removeAt(i)
+              problem_list.removeAt(i)
+              i = i-2
+          }
+          i++
+      }
+      var res:String=problem_list[0].toString()
+      return res
+  }
 
-                    temp = (next*prev/100).toFloat()
-                        problem_list[i]=temp
-                }
-                }
-                problem_list[i-1] = temp
-                problem_list.removeAt(i)
-                problem_list.removeAt(i)
-                i = i-2
+  fun percentage(problem_list:MutableList<Any>):MutableList<Any>{
+      var i = 0
+      var temp = 0f
+      while (problem_list.contains('%')){
+          Log.d("TAG", temp.toString())
+          if(problem_list[i]=='%'){
+              var next:Float = problem_list[i-1].toString().toFloat()
+              var prev:Float = problem_list[i+1].toString().toFloat()
+              when (problem_list[i]){
+                  '%'->{
 
-            }
-            i++
-        }
-        return problem_list
-    }
+                 temp = (next*prev/100).toFloat()
+                     problem_list[i]=temp
+             }
+             }
+             problem_list[i-1] = temp
+             problem_list.removeAt(i)
+             problem_list.removeAt(i)
+             i = i-2
+
+         }
+         i++
+     }
+     return problem_list
+}
 
 
     fun initUI() {
